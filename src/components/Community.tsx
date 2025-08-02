@@ -51,18 +51,18 @@ const Community = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-indigo-900 to-purple-900 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-b from-amber-900 to-pee-900 relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-pee-400/15 rounded-full blur-2xl"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-amber-400/15 rounded-full blur-2xl"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Join the <span className="bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">Stream Community</span>
+            Join the <span className="bg-gradient-to-r from-pee-300 to-amber-300 bg-clip-text text-transparent">Stream Community</span>
           </h2>
-          <p className="text-xl text-purple-100 max-w-3xl mx-auto">
+          <p className="text-xl text-amber-100 max-w-3xl mx-auto">
             Connect with millions of urinators worldwide who are turning their bathroom breaks into blockchain rewards.
           </p>
         </div>
@@ -70,20 +70,20 @@ const Community = () => {
         {/* Community Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {communityStats.map((stat, index) => (
-            <div key={index} className="group particle-container">
-              <div className="paper-card premium-card ripple-effect rounded-xl p-6 shadow-premium relative text-center">
-                {/* Paper texture overlay */}
+            <div key={index} className="group">
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-6 shadow-elevation-2 hover:shadow-elevation-3 transition-all duration-300 relative text-center overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-pee-50/30 to-amber-50/30"></div>
                 
                 <div className="relative">
                   {/* Icon */}
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white group-hover:scale-110 transition-transform duration-300 shadow-glow-premium icon-glow">
+                  <div className="w-16 h-16 bg-gradient-to-br from-pee-500 to-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white group-hover:scale-105 transition-transform duration-200 shadow-glow">
                     {stat.icon}
                   </div>
                   
                   {/* Stats */}
-                  <div className="text-3xl font-bold gradient-text-glow mb-1">{stat.number}</div>
-                  <div className="gradient-text font-semibold mb-1">{stat.label}</div>
-                  <div className="text-amber-700 text-sm">{stat.description}</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-pee-600 to-amber-600 bg-clip-text text-transparent mb-1">{stat.number}</div>
+                  <div className="bg-gradient-to-r from-pee-700 to-amber-700 bg-clip-text text-transparent font-semibold mb-1">{stat.label}</div>
+                  <div className="text-amber-800 text-sm">{stat.description}</div>
                 </div>
               </div>
             </div>
@@ -95,22 +95,22 @@ const Community = () => {
           <h3 className="text-2xl font-bold text-white text-center mb-12">What Our Urinators Say</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="group particle-container">
-                <div className="paper-card premium-card ripple-effect rounded-xl p-6 shadow-premium relative">
-                  {/* Paper texture overlay */}
+              <div key={index} className="group">
+                <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-6 shadow-elevation-2 hover:shadow-elevation-3 transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-pee-50/30 to-amber-50/30"></div>
                   
                   <div className="relative">
                     {/* Avatar & Info */}
                     <div className="flex items-center mb-4">
-                      <div className="text-3xl mr-3">{testimonial.avatar}</div>
+                      <div className="text-3xl mr-3 p-2 bg-gradient-to-br from-pee-100 to-amber-100 rounded-full">{testimonial.avatar}</div>
                       <div>
-                        <div className="font-bold gradient-text">{testimonial.name}</div>
-                        <div className="text-amber-700 text-sm">{testimonial.role}</div>
+                        <div className="font-bold bg-gradient-to-r from-pee-700 to-amber-700 bg-clip-text text-transparent">{testimonial.name}</div>
+                        <div className="text-amber-800 text-sm">{testimonial.role}</div>
                       </div>
                     </div>
                     
                     {/* Quote */}
-                    <p className="text-amber-700 italic leading-relaxed">"{testimonial.quote}"</p>
+                    <p className="text-amber-800 italic leading-relaxed">"{testimonial.quote}"</p>
                   </div>
                 </div>
               </div>
@@ -120,17 +120,18 @@ const Community = () => {
 
         {/* Community CTA */}
         <div className="text-center">
-          <div className="paper-card premium-card rounded-xl p-8 shadow-glow-premium relative max-w-3xl mx-auto particle-container">
+          <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-8 shadow-elevation-3 relative max-w-3xl mx-auto overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-pee-50/30 to-amber-50/30"></div>
             <div className="relative">
-              <h3 className="text-2xl font-bold gradient-text-glow mb-4">Ready to Join the Flow?</h3>
-              <p className="text-amber-700 mb-6 leading-relaxed">
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-pee-700 to-amber-700 bg-clip-text text-transparent mb-4">Ready to Join the Flow?</h3>
+              <p className="text-amber-800 mb-6 leading-relaxed">
                 Become part of the world's most natural cryptocurrency community. Start mining while you pee and connect with fellow urinators globally.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="btn-primary ripple-effect">
+                <button className="bg-gradient-to-r from-pee-500 to-amber-500 hover:from-pee-600 hover:to-amber-600 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-glow">
                   🚽 Download PEE App
                 </button>
-                <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 ripple-effect shadow-premium">
+                <button className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-elevation-2">
                   💬 Join Discord
                 </button>
               </div>

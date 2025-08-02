@@ -4,7 +4,7 @@ const PhoneMockup = () => {
   return (
     <div className="relative">
       {/* Phone Frame */}
-      <div className="relative w-72 h-[600px] bg-gradient-to-b from-gray-800 to-gray-900 rounded-[3rem] p-2 shadow-professional transform rotate-12 hover:rotate-6 transition-all duration-500 hover:scale-105 float-animation">
+      <div className="relative w-72 h-[600px] bg-gradient-to-b from-amber-800 to-pee-900 rounded-[3rem] p-2 shadow-elevation-3 transform rotate-12 hover:rotate-6 transition-all duration-500 hover:scale-105 float-animation">
         {/* Screen */}
         <div className="w-full h-full bg-black rounded-[2.5rem] overflow-hidden relative">
           {/* Status Bar */}
@@ -18,51 +18,51 @@ const PhoneMockup = () => {
           </div>
           
           {/* App Content */}
-          <div className="px-6 py-4 bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 h-full">
+          <div className="px-6 py-4 bg-gradient-to-br from-pee-900 via-amber-900 to-pee-800 h-full">
             {/* Header */}
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-professional glow-effect">
+              <div className="w-16 h-16 bg-gradient-to-br from-pee-500 to-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-elevation-2">
                 <span className="text-white font-bold text-2xl">P</span>
               </div>
-              <h2 className="gradient-text text-lg font-bold">Pee Network</h2>
-              <p className="text-white text-sm font-medium">Welcome You!</p>
+              <h2 className="text-lg font-bold bg-gradient-to-r from-pee-300 to-amber-300 bg-clip-text text-transparent">Pee Network</h2>
+              <p className="text-amber-200 text-sm font-medium">Welcome You!</p>
             </div>
             
             {/* Mining Circle */}
             <div className="relative flex justify-center mb-8">
-              <div className="w-32 h-32 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center relative shadow-professional glow-effect">
+              <div className="w-32 h-32 bg-gradient-to-br from-pee-500 to-amber-500 rounded-full flex items-center justify-center relative shadow-elevation-3">
                 {/* Rotating Ring */}
-                <div className="absolute inset-0 border-4 border-orange-300 border-t-transparent rounded-full animate-spin shadow-lg"></div>
-                <div className="w-24 h-24 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-full flex items-center justify-center shadow-inner">
+                <div className="absolute inset-0 border-4 border-pee-300 border-t-transparent rounded-full animate-spin shadow-lg"></div>
+                <div className="w-24 h-24 bg-gradient-to-br from-amber-700 to-pee-800 rounded-full flex items-center justify-center shadow-inner">
                   <div className="text-center">
-                    <div className="w-10 h-10 bg-white rounded-full mx-auto mb-1 flex items-center justify-center shadow-lg">
-                      <span className="text-purple-600 text-lg">🚽</span>
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-full mx-auto mb-1 flex items-center justify-center shadow-elevation-2">
+                      <span className="text-amber-600 text-lg">🚽</span>
                     </div>
-                    <div className="text-white text-xs font-bold">Flush</div>
+                    <div className="text-amber-200 text-xs font-bold">Flush</div>
                   </div>
                 </div>
               </div>
             </div>
             
             {/* Mining Info */}
-            <div className="paper-card rounded-lg p-4 mb-4 shadow-lg">
-              <div className="text-white text-sm mb-2">
-                <span className="gradient-text font-bold">💧 Flow Rate:</span> <span className="text-amber-700 font-semibold">0.12 PEE/h</span>
+            <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 rounded-lg p-4 mb-4 shadow-elevation-2">
+              <div className="text-amber-800 text-sm mb-2">
+                <span className="font-bold bg-gradient-to-r from-pee-600 to-amber-600 bg-clip-text text-transparent">💧 Flow Rate:</span> <span className="text-amber-700 font-semibold">0.12 PEE/h</span>
               </div>
-              <div className="text-white text-sm mb-2">
-                <span className="gradient-text font-bold">🧪 Bladder Balance:</span> <span className="text-amber-700 font-semibold">1,234.56 PEE</span>
+              <div className="text-amber-800 text-sm mb-2">
+                <span className="font-bold bg-gradient-to-r from-pee-600 to-amber-600 bg-clip-text text-transparent">🧪 Bladder Balance:</span> <span className="text-amber-700 font-semibold">1,234.56 PEE</span>
               </div>
-              <div className="text-white text-sm">
-                <span className="gradient-text font-bold">🚽 Pee-mates:</span> <span className="text-amber-700 font-semibold">8 Active Urinators</span>
+              <div className="text-amber-800 text-sm">
+                <span className="font-bold bg-gradient-to-r from-pee-600 to-amber-600 bg-clip-text text-transparent">🚽 Pee-mates:</span> <span className="text-amber-700 font-semibold">8 Active Urinators</span>
               </div>
             </div>
             
             {/* Action Buttons */}
             <div className="space-y-2">
-              <button className="w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white py-2 rounded-lg text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+              <button className="w-full bg-gradient-to-r from-pee-500 to-amber-500 hover:from-pee-600 hover:to-amber-600 text-white py-2 rounded-lg text-sm font-bold transition-all duration-300 shadow-elevation-2 hover:shadow-elevation-3 transform hover:scale-105">
                 FLUSH TO MINE
               </button>
-              <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-2 rounded-lg text-sm font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+              <button className="w-full bg-gradient-to-br from-amber-700 to-pee-800 hover:from-amber-800 hover:to-pee-900 text-white py-2 rounded-lg text-sm font-bold transition-all duration-300 shadow-elevation-2 hover:shadow-elevation-3 transform hover:scale-105">
                 INVITE PEE-MATES
               </button>
             </div>
@@ -71,9 +71,9 @@ const PhoneMockup = () => {
       </div>
       
       {/* Floating Elements */}
-      <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full animate-bounce delay-100 shadow-lg glow-effect"></div>
-      <div className="absolute -bottom-4 -right-4 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-bounce delay-300 shadow-lg glow-effect"></div>
-      <div className="absolute top-1/2 -left-8 w-4 h-4 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full animate-pulse shadow-lg"></div>
+      <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-pee-400 to-amber-500 rounded-full animate-bounce delay-100 shadow-elevation-2"></div>
+      <div className="absolute -bottom-4 -right-4 w-6 h-6 bg-gradient-to-r from-amber-400 to-pee-500 rounded-full animate-bounce delay-300 shadow-elevation-2"></div>
+      <div className="absolute top-1/2 -left-8 w-4 h-4 bg-gradient-to-r from-pee-300 to-amber-400 rounded-full animate-pulse shadow-elevation-1"></div>
     </div>
   );
 };
