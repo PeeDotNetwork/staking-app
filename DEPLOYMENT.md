@@ -2,7 +2,7 @@
 
 ## Repository Setup Status ✅
 
-The project has been successfully prepared for deployment to GitHub at the `PeeNetwork/staking-app` repository.
+The project has been successfully prepared for deployment to GitHub at the `PeeDotNetwork/staking-app` repository.
 
 ### ✅ Completed Tasks
 
@@ -24,20 +24,20 @@ The project has been successfully prepared for deployment to GitHub at the `PeeN
 
 4. **Git Repository Prepared**
    - All files staged and committed
-   - Remote configured for `git@github.com:PeeNetwork/staking-app.git`
+   - Remote configured for `git@github.com:PeeDotNetwork/staking-app.git`
    - Comprehensive commit message with feature documentation
 
 ### 🎯 Next Steps for Deployment
 
-Since the `PeeNetwork/staking-app` repository doesn't exist yet, you'll need to:
+Since the `PeeDotNetwork/staking-app` repository doesn't exist yet, you'll need to:
 
 #### 1. Create Repository on GitHub
 ```bash
 # Option A: Create via GitHub CLI (if available)
-gh repo create PeeNetwork/staking-app --public --description "PEE Network ZK POOP Staking Interface - Purple/Gold Premium DeFi UI"
+gh repo create PeeDotNetwork/staking-app --public --description "PEE Network ZK POOP Staking Interface - Purple/Gold Premium DeFi UI"
 
 # Option B: Create manually via GitHub web interface
-# - Go to https://github.com/organizations/PeeNetwork/repositories/new
+# - Go to https://github.com/organizations/PeeDotNetwork/repositories/new
 # - Repository name: "staking-app"
 # - Description: "PEE Network ZK POOP Staking Interface - Purple/Gold Premium DeFi UI"
 # - Set as Public
@@ -132,6 +132,6 @@ npm run lint
 
 ---
 
-**Status**: ✅ Ready for GitHub deployment to `PeeNetwork/staking-app`
+**Status**: ✅ Ready for GitHub deployment to `PeeDotNetwork/staking-app`
 
 **Next Action**: Create the repository and push the code!
