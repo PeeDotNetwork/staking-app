@@ -8,7 +8,11 @@ export default function StakingInterface() {
   const [stakedAmount, setStakedAmount] = useState(1250.75)
   const [availableBalance, setAvailableBalance] = useState(5000)
   const [totalRewards, setTotalRewards] = useState(187.32)
-  const [currentAPY] = useState(15.4)
+  const [wePeeRate] = useState(2.5) // Base $WePee per 1K staked per day
+  const [lockPeriod, setLockPeriod] = useState('threeMonths')
+  const [lockMultiplier, setLockMultiplier] = useState(2.0)
+  const [lockStartTime] = useState(Date.now() / 1000 - 86400 * 30) // 30 days ago
+  const [lockEndTime] = useState(Date.now() / 1000 + 86400 * 60) // 60 days from now
   const [showEasterEgg, setShowEasterEgg] = useState(false)
   const [rewardStreak, setRewardStreak] = useState(0)
   const statsRef = useRef<HTMLDivElement>(null)
@@ -43,16 +47,32 @@ export default function StakingInterface() {
       clearInterval(interval)
       cleanup()
     }
-  }, [])
+  }, [stakedAmount, wePeeRate, lockMultiplier])
 
-  const handleStake = (amount: number) => {
+  const handleStake = (amount: number, selectedLockPeriod: string) => {
     setStakedAmount(prev => prev + amount)
     setAvailableBalance(prev => prev - amount)
+    setLockPeriod(selectedLockPeriod)
+    
+    // Set multiplier based on lock period
+    const multipliers: { [key: string]: number } = {
+      oneDay: 1.0,
+      oneWeek: 1.25,
+      threeMonths: 2.0,
+      sixMonths: 3.0
+    }
+    setLockMultiplier(multipliers[selectedLockPeriod] || 1.0)
   }
 
   const handleUnstake = (amount: number) => {
     setStakedAmount(prev => Math.max(0, prev - amount))
     setAvailableBalance(prev => prev + amount)
+  }
+  
+  const handleEmergencyUnlock = (returnAmount: number, _penaltyAmount: number) => {
+    setStakedAmount(0) // Full unlock
+    setAvailableBalance(prev => prev + returnAmount)
+    // Note: _penaltyAmount is distributed (burned/rewards/treasury)
   }
 
   const handleClaimRewards = () => {
@@ -105,10 +125,10 @@ export default function StakingInterface() {
             <Percent className="w-6 h-6 text-primary-accent pulse-glow" />
           </div>
           <div className="text-2xl font-bold text-primary-accent">
-            {currentAPY}%
+            {lockMultiplier}x
             <Zap className="w-4 h-4 inline ml-1 text-primary-accent" />
           </div>
-          <div className="text-sm text-primary-accent/70">Current APY</div>
+          <div className="text-sm text-primary-accent/70">Lock Multiplier</div>
         </div>
       </div>
 
@@ -119,8 +139,13 @@ export default function StakingInterface() {
           <StakeForm
             availableBalance={availableBalance}
             stakedAmount={stakedAmount}
+            lockPeriod={lockPeriod}
+            lockStartTime={lockStartTime}
+            lockEndTime={lockEndTime}
+            lockMultiplier={lockMultiplier}
             onStake={handleStake}
             onUnstake={handleUnstake}
+            onEmergencyUnlock={handleEmergencyUnlock}
           />
         </div>
 
@@ -128,7 +153,11 @@ export default function StakingInterface() {
         <div>
           <RewardsPanel
             totalRewards={totalRewards}
-            currentAPY={currentAPY}
+            wePeeRate={wePeeRate}
+            stakedAmount={stakedAmount}
+            lockMultiplier={lockMultiplier}
+            lockPeriod={lockPeriod === 'oneDay' ? '24 Hours' : lockPeriod === 'oneWeek' ? '1 Week' : lockPeriod === 'threeMonths' ? '3 Months' : '6 Months'}
+            lockTimeRemaining={lockEndTime - Date.now() / 1000}
             onClaimRewards={handleClaimRewards}
           />
         </div>
@@ -143,20 +172,20 @@ export default function StakingInterface() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-primary-accent/80">
           <div>
             <h4 className="font-semibold text-primary-accent mb-2">Staking Details</h4>
-            <ul className="space-y-1 text-sm">
-              <li className="hover:text-primary-accent transition-colors">• Minimum stake: 1 TOKEN 🌱</li>
-              <li className="hover:text-primary-accent transition-colors">• Maximum stake: No limit 🚀</li>
-              <li className="hover:text-primary-accent transition-colors">• Staking period: Flexible ⏰</li>
-              <li className="hover:text-primary-accent transition-colors">• Rewards frequency: Real-time ⚡</li>
+            <ul className="space-y-1 text-xs md:text-sm">
+              <li className="hover:text-primary-accent transition-colors">• Minimum stake: 100-1000 TOKEN (varies by lock) 🌱</li>
+              <li className="hover:text-primary-accent transition-colors">• Lock periods: 24h, 1w, 3m, 6m 🔒</li>
+              <li className="hover:text-primary-accent transition-colors">• Multipliers: 1x, 1.25x, 2x, 3x 🚀</li>
+              <li className="hover:text-primary-accent transition-colors">• Rewards: $WePee tokens ⚡</li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold text-primary-accent mb-2">Unstaking</h4>
-            <ul className="space-y-1 text-sm">
-              <li className="hover:text-primary-accent transition-colors">• Unstaking period: Instant ⚡</li>
-              <li className="hover:text-primary-accent transition-colors">• No penalties for unstaking 🎉</li>
-              <li className="hover:text-primary-accent transition-colors">• Rewards continue until unstaked 💰</li>
-              <li className="hover:text-primary-accent transition-colors">• Partial unstaking supported 🔀</li>
+            <ul className="space-y-1 text-xs md:text-sm">
+              <li className="hover:text-primary-accent transition-colors">• Normal unlock: Wait for lock expiry ⏰</li>
+              <li className="hover:text-primary-accent transition-colors">• Emergency unlock: Up to 33% penalty ⚠️</li>
+              <li className="hover:text-primary-accent transition-colors">• Penalty decreases over time 📉</li>
+              <li className="hover:text-primary-accent transition-colors">• Penalties: 40% burn, 40% rewards, 20% treasury 🔥</li>
             </ul>
           </div>
         </div>

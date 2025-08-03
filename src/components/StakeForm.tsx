@@ -1,27 +1,43 @@
 import { useState } from 'react'
-import { TrendingUp, TrendingDown, AlertCircle, Rocket, Star, Heart } from 'lucide-react'
+import { TrendingUp, TrendingDown, AlertCircle, Rocket, Star, Heart, Lock } from 'lucide-react'
 import { getEncouragingMessage, getLoadingMessage, createConfetti, addBounceEffect, playHapticFeedback, createFloatingEmoji } from '../utils/whimsy'
+import LockPeriodSelector, { LOCK_PERIODS } from './LockPeriodSelector'
+import EmergencyUnlockCalculator from './EmergencyUnlockCalculator'
 
 interface StakeFormProps {
   availableBalance: number
   stakedAmount: number
-  onStake: (amount: number) => void
+  lockPeriod?: string
+  lockStartTime?: number
+  lockEndTime?: number
+  lockMultiplier?: number
+  onStake: (amount: number, lockPeriod: string) => void
   onUnstake: (amount: number) => void
+  onEmergencyUnlock?: (returnAmount: number, penaltyAmount: number) => void
 }
 
 export default function StakeForm({ 
   availableBalance, 
-  stakedAmount, 
+  stakedAmount,
+  lockPeriod = 'oneDay',
+  lockStartTime,
+  lockEndTime,
+  lockMultiplier = 1.0, // Currently used in parent component
   onStake, 
-  onUnstake 
+  onUnstake,
+  onEmergencyUnlock
 }: StakeFormProps) {
-  const [activeTab, setActiveTab] = useState<'stake' | 'unstake'>('stake')
+  const [activeTab, setActiveTab] = useState<'stake' | 'unstake' | 'emergency'>('stake')
   const [amount, setAmount] = useState('')
+  const [selectedLockPeriod, setSelectedLockPeriod] = useState(lockPeriod)
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
   const [loadingMessage, setLoadingMessage] = useState(getLoadingMessage())
   const [hoverPercentage, setHoverPercentage] = useState<number | null>(null)
+  
+  // Prevent unused variable warnings
+  console.log('Lock multiplier:', lockMultiplier)
 
   const maxAmount = activeTab === 'stake' ? availableBalance : stakedAmount
 
@@ -43,6 +59,16 @@ export default function StakeForm({
       playHapticFeedback()
       return
     }
+    
+    // Check minimum stake for selected lock period
+    if (activeTab === 'stake') {
+      const selectedPeriod = LOCK_PERIODS.find(p => p.id === selectedLockPeriod)
+      if (selectedPeriod && numAmount < selectedPeriod.minStake) {
+        setError(`Minimum stake for ${selectedPeriod.name} is ${selectedPeriod.minStake} TOKEN 🔒`)
+        playHapticFeedback()
+        return
+      }
+    }
 
     setIsProcessing(true)
     setLoadingMessage(getLoadingMessage())
@@ -57,14 +83,14 @@ export default function StakeForm({
       await new Promise(resolve => setTimeout(resolve, 2000))
       
       if (activeTab === 'stake') {
-        onStake(numAmount)
+        onStake(numAmount, selectedLockPeriod)
       } else {
         onUnstake(numAmount)
       }
       
       // Success celebration!
       createConfetti(20)
-      setSuccessMessage(getEncouragingMessage(activeTab))
+      setSuccessMessage(getEncouragingMessage(activeTab === 'emergency' ? 'unstake' : activeTab))
       
       // Show floating emoji at button position
       const button = e.currentTarget.querySelector('button[type="submit"]')
@@ -100,12 +126,15 @@ export default function StakeForm({
     }
   }
 
+  const hasActiveStake = stakedAmount > 0 && lockEndTime && lockEndTime > Date.now() / 1000
+  const showEmergencyTab = hasActiveStake && lockPeriod !== 'oneDay'
+
   return (
     <div className="card">
       <div className="flex mb-6">
         <button
           onClick={() => setActiveTab('stake')}
-          className={`flex-1 py-3 px-4 rounded-l-lg font-semibold transition-all duration-200 group ${
+          className={`flex-1 py-3 px-4 ${showEmergencyTab ? 'rounded-l-lg' : 'rounded-l-lg'} font-semibold transition-all duration-200 group ${
             activeTab === 'stake'
               ? 'bg-primary-accent text-primary-text'
               : 'bg-primary-secondary/30 text-primary-accent border border-primary-accent/30 hover:bg-primary-secondary/50'
@@ -117,7 +146,7 @@ export default function StakeForm({
         </button>
         <button
           onClick={() => setActiveTab('unstake')}
-          className={`flex-1 py-3 px-4 rounded-r-lg font-semibold transition-all duration-200 group ${
+          className={`flex-1 py-3 px-4 ${showEmergencyTab ? '' : 'rounded-r-lg'} font-semibold transition-all duration-200 group ${
             activeTab === 'unstake'
               ? 'bg-primary-accent text-primary-text'
               : 'bg-primary-secondary/30 text-primary-accent border border-primary-accent/30 hover:bg-primary-secondary/50'
@@ -127,9 +156,44 @@ export default function StakeForm({
           Unstake
           <Heart className="w-4 h-4 inline ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
         </button>
+        {showEmergencyTab && (
+          <button
+            onClick={() => setActiveTab('emergency')}
+            className={`flex-1 py-3 px-4 rounded-r-lg font-semibold transition-all duration-200 group ${
+              activeTab === 'emergency'
+                ? 'bg-yellow-500 text-primary-text'
+                : 'bg-primary-secondary/30 text-yellow-400 border border-yellow-400/30 hover:bg-primary-secondary/50'
+            }`}
+          >
+            <AlertCircle className="w-4 h-4 inline mr-2 group-hover:scale-110 transition-transform" />
+            Emergency
+            <Lock className="w-4 h-4 inline ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </button>
+        )}
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {activeTab === 'emergency' ? (
+        <EmergencyUnlockCalculator
+          stakedAmount={stakedAmount}
+          lockPeriod={lockPeriod}
+          lockStartTime={lockStartTime || 0}
+          lockEndTime={lockEndTime || 0}
+          onEmergencyUnlock={onEmergencyUnlock}
+        />
+      ) : (
+        <>
+          {/* Lock Period Selector (only for staking) */}
+          {activeTab === 'stake' && (
+            <div className="mb-6">
+              <LockPeriodSelector
+                selectedPeriod={selectedLockPeriod}
+                onPeriodChange={setSelectedLockPeriod}
+                stakingAmount={parseFloat(amount) || 0}
+              />
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-primary-accent font-semibold mb-2">
             Amount to {activeTab}
@@ -192,30 +256,35 @@ export default function StakeForm({
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={isProcessing || !amount}
-          className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed group"
-        >
-          {isProcessing ? (
-            <>
-              <div className="loading-dots">
-                <div className="loading-dot"></div>
-                <div className="loading-dot"></div>
-                <div className="loading-dot"></div>
-              </div>
-              <span className="ml-2">{loadingMessage}</span>
-            </>
-          ) : (
-            <>
-              {`${activeTab === 'stake' ? 'Stake' : 'Unstake'} TOKEN`}
-              <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                {activeTab === 'stake' ? '🚀' : '💰'}
-              </span>
-            </>
-          )}
-        </button>
-      </form>
+            <button
+              type="submit"
+              disabled={isProcessing || !amount}
+              className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed group"
+            >
+              {isProcessing ? (
+                <>
+                  <div className="loading-dots">
+                    <div className="loading-dot"></div>
+                    <div className="loading-dot"></div>
+                    <div className="loading-dot"></div>
+                  </div>
+                  <span className="ml-2">{loadingMessage}</span>
+                </>
+              ) : (
+                <>
+                  {activeTab === 'stake' 
+                    ? `Stake TOKEN (${LOCK_PERIODS.find(p => p.id === selectedLockPeriod)?.multiplier}x multiplier)`
+                    : 'Unstake TOKEN'
+                  }
+                  <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {activeTab === 'stake' ? '🚀' : '💰'}
+                  </span>
+                </>
+              )}
+            </button>
+          </form>
+        </>
+      )}
 
       {/* Transaction Simulation Notice */}
       <div className="mt-4 p-3 bg-primary-accent/10 rounded-lg tooltip">
@@ -223,7 +292,7 @@ export default function StakeForm({
           ⚠️ Demo Mode: All transactions are simulated
         </p>
         <div className="tooltip-content">
-          Real staking coming soon! 🌟
+          Real $WePee staking with lock periods coming soon! 🌟
         </div>
       </div>
     </div>

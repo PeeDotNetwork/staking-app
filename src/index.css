@@ -322,4 +322,56 @@ body {
     opacity: 1;
     pointer-events: auto;
   }
+  
+  /* Mobile Optimizations */
+  @media (max-width: 640px) {
+    .stat-card {
+      @apply p-3;
+    }
+    
+    .card {
+      @apply p-4;
+    }
+    
+    /* Reduce animation intensity on mobile for performance */
+    .float-animation {
+      animation: float 4s ease-in-out infinite;
+    }
+    
+    .pulse-glow {
+      animation: none;
+      box-shadow: 0 0 15px rgba(245, 201, 58, 0.2);
+    }
+    
+    /* Optimize touch targets */
+    .btn-primary,
+    .btn-secondary {
+      @apply py-3 px-4 text-sm;
+      min-height: 44px; /* iOS touch target minimum */
+    }
+    
+    /* Compact loading dots */
+    .loading-dot {
+      width: 6px;
+      height: 6px;
+    }
+    
+    /* Reduce confetti for performance */
+    .confetti {
+      width: 6px;
+      height: 6px;
+    }
+  }
+  
+  /* Golden Poo Animation */
+  @keyframes poo-bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(-5deg); }
+    75% { transform: translateY(5px) rotate(5deg); }
+  }
+  
+  .poo-emoji {
+    display: inline-block;
+    animation: poo-bounce 2s ease-in-out infinite;
+  }
 }

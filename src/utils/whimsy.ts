@@ -172,3 +172,21 @@ export const createFloatingEmoji = (emoji: string, x: number, y: number) => {
   document.body.appendChild(floater)
   setTimeout(() => floater.remove(), 1000)
 }
+
+// Format $goldenPoo amounts with appropriate precision
+export const formatGoldenPoo = (amount: number): string => {
+  if (amount >= 1000000) {
+    return (amount / 1000000).toFixed(1) + 'M 💩'
+  } else if (amount >= 10000) {
+    return (amount / 1000).toFixed(1) + 'K 💩'
+  } else if (amount >= 1000) {
+    return amount.toFixed(0) + ' 💩'
+  } else if (amount >= 100) {
+    return amount.toFixed(1) + ' 💩'
+  } else if (amount >= 10) {
+    return amount.toFixed(2) + ' 💩'
+  } else if (amount > 0) {
+    return amount.toFixed(3) + ' 💩'
+  }
+  return '0 💩'
+}

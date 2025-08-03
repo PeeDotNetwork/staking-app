@@ -74,9 +74,9 @@ function App() {
                 </h1>
                 
                 <p className="text-lg text-primary-accent/80 mb-8 leading-relaxed">
-                  Start earning rewards by staking your ZK POOP tokens
+                  Start earning $WePee by staking your ZK POOP tokens
                   <br />
-                  <span className="text-sm text-primary-accent/60">✨ High APY • 🚀 Instant Rewards • 💎 No Lock Period</span>
+                  <span className="text-sm text-primary-accent/60">💩 Daily $WePee • 🚀 Lock Multipliers • 💎 Up to 3x Rewards</span>
                 </p>
                 
                 <div className="transform hover:scale-105 transition-transform duration-200">
