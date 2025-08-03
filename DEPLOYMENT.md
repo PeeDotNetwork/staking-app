@@ -2,7 +2,7 @@
 
 ## Repository Setup Status ✅
 
-The project has been successfully prepared for deployment to GitHub at the `peenetwork/stake` repository.
+The project has been successfully prepared for deployment to GitHub at the `PeeNetwork/staking-app` repository.
 
 ### ✅ Completed Tasks
 
@@ -24,21 +24,21 @@ The project has been successfully prepared for deployment to GitHub at the `peen
 
 4. **Git Repository Prepared**
    - All files staged and committed
-   - Remote configured for `git@github.com:peenetwork/stake.git`
+   - Remote configured for `git@github.com:PeeNetwork/staking-app.git`
    - Comprehensive commit message with feature documentation
 
 ### 🎯 Next Steps for Deployment
 
-Since the `peenetwork/stake` repository doesn't exist yet, you'll need to:
+Since the `PeeNetwork/staking-app` repository doesn't exist yet, you'll need to:
 
 #### 1. Create Repository on GitHub
 ```bash
 # Option A: Create via GitHub CLI (if available)
-gh repo create peenetwork/stake --public --description "PEE Network ZK POOP Staking Interface - Purple/Gold Premium DeFi UI"
+gh repo create PeeNetwork/staking-app --public --description "PEE Network ZK POOP Staking Interface - Purple/Gold Premium DeFi UI"
 
 # Option B: Create manually via GitHub web interface
-# - Go to https://github.com/organizations/peenetwork/repositories/new
-# - Repository name: "stake"
+# - Go to https://github.com/organizations/PeeNetwork/repositories/new
+# - Repository name: "staking-app"
 # - Description: "PEE Network ZK POOP Staking Interface - Purple/Gold Premium DeFi UI"
 # - Set as Public
 # - Do NOT initialize with README (we have our own)
@@ -59,7 +59,7 @@ git push -u origin main
 ### 📁 Final Project Structure
 
 ```
-stake/
+staking-app/
 ├── src/
 │   ├── components/           # React components
 │   │   ├── Header.tsx       # App header with wallet info
@@ -132,6 +132,6 @@ npm run lint
 
 ---
 
-**Status**: ✅ Ready for GitHub deployment to `peenetwork/stake`
+**Status**: ✅ Ready for GitHub deployment to `PeeNetwork/staking-app`
 
 **Next Action**: Create the repository and push the code!
