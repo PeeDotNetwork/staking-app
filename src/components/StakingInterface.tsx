@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { TrendingUp, Coins, Clock, DollarSign, Percent, Sparkles, Trophy, Zap } from 'lucide-react'
+import { TrendingUp, Coins, Clock, DollarSign, Percent, Trophy, Zap, Shield, Target } from 'lucide-react'
 import StakeForm from './StakeForm'
 import RewardsPanel from './RewardsPanel'
 import { createSparkle, formatNumberWithStyle, initKonamiCode } from '../utils/whimsy'
@@ -81,122 +81,182 @@ export default function StakingInterface() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
-      {/* Stats Overview */}
-      <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="stat-card group sparkle-container">
-          <div className="flex items-center justify-center mb-2">
-            <Coins className="w-6 h-6 text-primary-accent wiggle-hover" />
+    <div className="min-h-screen bg-gradient-dark">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-black mb-4">
+            <span className="gradient-text">ZK POOP</span>
+          </h1>
+          <p className="text-xl text-white/70 mb-2">Elegant Staking Protocol</p>
+          <p className="text-sm text-white/50">Lock • Earn • Thrive</p>
+        </div>
+
+        {/* Stats Overview */}
+        <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="stat-card group sparkle-container">
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-3 rounded-full bg-gradient-elegant/20">
+                <Coins className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-white mb-1">
+              {formatNumberWithStyle(stakedAmount)}
+            </div>
+            <div className="text-sm text-white/60">Total Staked</div>
+            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Target className="w-4 h-4 text-white/40" />
+            </div>
           </div>
-          <div className="text-2xl font-bold text-primary-accent">
-            {formatNumberWithStyle(stakedAmount)}
+
+          <div className="stat-card group sparkle-container">
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-3 rounded-full bg-gradient-elegant/20">
+                <DollarSign className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-white mb-1">
+              {formatNumberWithStyle(availableBalance)}
+            </div>
+            <div className="text-sm text-white/60">Available Balance</div>
           </div>
-          <div className="text-sm text-primary-accent/70">Total Staked</div>
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Sparkles className="w-4 h-4 text-primary-accent/50" />
+
+          <div className="stat-card group sparkle-container">
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-3 rounded-full bg-gradient-elegant/20">
+                <TrendingUp className="w-6 h-6 text-white float-animation" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-white mb-1">
+              {totalRewards.toFixed(4)}
+              {rewardStreak > 0 && (
+                <span className="text-sm ml-2 px-2 py-1 bg-gradient-elegant rounded-full text-white">
+                  🔥{rewardStreak}
+                </span>
+              )}
+            </div>
+            <div className="text-sm text-white/60">Pending $WePee</div>
+          </div>
+
+          <div className="stat-card group sparkle-container">
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-3 rounded-full bg-gradient-elegant/20 pulse-glow">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-white mb-1">
+              <span className="gradient-text">{lockMultiplier}x</span>
+              <Zap className="w-5 h-5 inline ml-2 text-white/60" />
+            </div>
+            <div className="text-sm text-white/60">Lock Multiplier</div>
           </div>
         </div>
 
-        <div className="stat-card group sparkle-container">
-          <div className="flex items-center justify-center mb-2">
-            <DollarSign className="w-6 h-6 text-primary-accent wiggle-hover" />
+        {/* Main Interface */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          {/* Staking Form */}
+          <div className="lg:col-span-2">
+            <StakeForm
+              availableBalance={availableBalance}
+              stakedAmount={stakedAmount}
+              lockPeriod={lockPeriod}
+              lockStartTime={lockStartTime}
+              lockEndTime={lockEndTime}
+              lockMultiplier={lockMultiplier}
+              onStake={handleStake}
+              onUnstake={handleUnstake}
+              onEmergencyUnlock={handleEmergencyUnlock}
+            />
           </div>
-          <div className="text-2xl font-bold text-primary-accent">
-            {formatNumberWithStyle(availableBalance)}
-          </div>
-          <div className="text-sm text-primary-accent/70">Available Balance</div>
-        </div>
 
-        <div className="stat-card group sparkle-container">
-          <div className="flex items-center justify-center mb-2">
-            <TrendingUp className="w-6 h-6 text-primary-accent float-animation" />
-          </div>
-          <div className="text-2xl font-bold text-primary-accent">
-            {totalRewards.toFixed(4)}
-            {rewardStreak > 0 && (
-              <span className="text-sm ml-1">🔥{rewardStreak}</span>
-            )}
-          </div>
-          <div className="text-sm text-primary-accent/70">Pending Rewards</div>
-        </div>
-
-        <div className="stat-card group sparkle-container">
-          <div className="flex items-center justify-center mb-2">
-            <Percent className="w-6 h-6 text-primary-accent pulse-glow" />
-          </div>
-          <div className="text-2xl font-bold text-primary-accent">
-            {lockMultiplier}x
-            <Zap className="w-4 h-4 inline ml-1 text-primary-accent" />
-          </div>
-          <div className="text-sm text-primary-accent/70">Lock Multiplier</div>
-        </div>
-      </div>
-
-      {/* Main Interface */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Staking Form */}
-        <div className="lg:col-span-2">
-          <StakeForm
-            availableBalance={availableBalance}
-            stakedAmount={stakedAmount}
-            lockPeriod={lockPeriod}
-            lockStartTime={lockStartTime}
-            lockEndTime={lockEndTime}
-            lockMultiplier={lockMultiplier}
-            onStake={handleStake}
-            onUnstake={handleUnstake}
-            onEmergencyUnlock={handleEmergencyUnlock}
-          />
-        </div>
-
-        {/* Rewards Panel */}
-        <div>
-          <RewardsPanel
-            totalRewards={totalRewards}
-            wePeeRate={wePeeRate}
-            stakedAmount={stakedAmount}
-            lockMultiplier={lockMultiplier}
-            lockPeriod={lockPeriod === 'oneDay' ? '24 Hours' : lockPeriod === 'oneWeek' ? '1 Week' : lockPeriod === 'threeMonths' ? '3 Months' : '6 Months'}
-            lockTimeRemaining={lockEndTime - Date.now() / 1000}
-            onClaimRewards={handleClaimRewards}
-          />
-        </div>
-      </div>
-
-      {/* Staking Info */}
-      <div className="card fade-in-up">
-        <h3 className="text-xl font-bold text-primary-accent mb-4 flex items-center">
-          <Clock className="w-5 h-5 mr-2 wiggle-hover" />
-          Staking Information
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-primary-accent/80">
+          {/* Rewards Panel */}
           <div>
-            <h4 className="font-semibold text-primary-accent mb-2">Staking Details</h4>
-            <ul className="space-y-1 text-xs md:text-sm">
-              <li className="hover:text-primary-accent transition-colors">• Minimum stake: 100-1000 TOKEN (varies by lock) 🌱</li>
-              <li className="hover:text-primary-accent transition-colors">• Lock periods: 24h, 1w, 3m, 6m 🔒</li>
-              <li className="hover:text-primary-accent transition-colors">• Multipliers: 1x, 1.25x, 2x, 3x 🚀</li>
-              <li className="hover:text-primary-accent transition-colors">• Rewards: $WePee tokens ⚡</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold text-primary-accent mb-2">Unstaking</h4>
-            <ul className="space-y-1 text-xs md:text-sm">
-              <li className="hover:text-primary-accent transition-colors">• Normal unlock: Wait for lock expiry ⏰</li>
-              <li className="hover:text-primary-accent transition-colors">• Emergency unlock: Up to 33% penalty ⚠️</li>
-              <li className="hover:text-primary-accent transition-colors">• Penalty decreases over time 📉</li>
-              <li className="hover:text-primary-accent transition-colors">• Penalties: 40% burn, 40% rewards, 20% treasury 🔥</li>
-            </ul>
+            <RewardsPanel
+              totalRewards={totalRewards}
+              wePeeRate={wePeeRate}
+              stakedAmount={stakedAmount}
+              lockMultiplier={lockMultiplier}
+              lockPeriod={lockPeriod === 'oneDay' ? '24 Hours' : lockPeriod === 'oneWeek' ? '1 Week' : lockPeriod === 'threeMonths' ? '3 Months' : '6 Months'}
+              lockTimeRemaining={lockEndTime - Date.now() / 1000}
+              onClaimRewards={handleClaimRewards}
+            />
           </div>
         </div>
+
+        {/* Elegant Staking Info */}
+        <div className="glass rounded-2xl p-8 fade-in-up">
+          <div className="flex items-center justify-center mb-8">
+            <div className="p-4 rounded-full bg-gradient-elegant/20">
+              <Clock className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold text-white text-center mb-8">Protocol Overview</h3>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-semibold text-white mb-4 flex items-center">
+                  <div className="w-2 h-2 bg-gradient-elegant rounded-full mr-3"></div>
+                  Staking Details
+                </h4>
+                <div className="space-y-3 text-white/70">
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Minimum Stakes</span>
+                    <span className="text-white">100-1000 TOKEN</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Lock Periods</span>
+                    <span className="text-white">24h • 1w • 3m • 6m</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Multipliers</span>
+                    <span className="gradient-text font-semibold">1x • 1.25x • 2x • 3x</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Rewards</span>
+                    <span className="text-white">$WePee Tokens</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-semibold text-white mb-4 flex items-center">
+                  <div className="w-2 h-2 bg-gradient-elegant rounded-full mr-3"></div>
+                  Unstaking Policy
+                </h4>
+                <div className="space-y-3 text-white/70">
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Normal Unlock</span>
+                    <span className="text-green-400">Wait for expiry</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Emergency Unlock</span>
+                    <span className="text-yellow-400">Up to 33% penalty</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Penalty Reduction</span>
+                    <span className="text-white">Decreases over time</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                    <span>Distribution</span>
+                    <span className="text-white">40% • 40% • 20%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Easter Egg */}
+        {showEasterEgg && (
+          <div className="easter-egg show fixed bottom-6 right-6 glass px-6 py-3 rounded-full fade-in-up">
+            <Trophy className="w-5 h-5 inline mr-2 text-white" />
+            <span className="gradient-text font-semibold">Achievement Unlocked!</span>
+          </div>
+        )}
       </div>
-      {/* Easter Egg */}
-      {showEasterEgg && (
-        <div className="easter-egg show fixed bottom-20 right-20 bg-primary-accent text-primary-text px-6 py-3 rounded-full shadow-lg fade-in-up">
-          <Trophy className="w-5 h-5 inline mr-2" />
-          Achievement Unlocked: Code Master!
-        </div>
-      )}
     </div>
   )
 }

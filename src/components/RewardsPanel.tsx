@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Gift, TrendingUp, AlertCircle, Star, Sparkles, Trophy, PartyPopper } from 'lucide-react'
+import { Gift, TrendingUp, AlertCircle, Star, Crown, Trophy, Zap } from 'lucide-react'
 import { getEncouragingMessage, createConfetti, addBounceEffect, createSparkle, createFloatingEmoji } from '../utils/whimsy'
 
 interface RewardsPanelProps {
@@ -75,22 +75,28 @@ export default function RewardsPanel({
 
   return (
     <div className="space-y-6">
-      {/* Current $WePee Rewards - Mobile Optimized */}
-      <div className="card glow pulse-glow sparkle-container p-4 md:p-6">
-        <div className="text-center mb-3 md:mb-4">
-          <Gift className="w-10 h-10 md:w-12 md:h-12 text-primary-accent mx-auto mb-1 md:mb-2 float-animation" />
-          <h3 className="text-lg md:text-xl font-bold text-primary-accent">Claimable $WePee</h3>
+      {/* Current $WePee Rewards */}
+      <div className="glass rounded-2xl p-6 glow pulse-glow sparkle-container">
+        <div className="text-center mb-6">
+          <div className="flex items-center justify-center mb-4">
+            <div className="p-4 rounded-full bg-gradient-elegant/20">
+              <Crown className="w-8 h-8 text-white float-animation" />
+            </div>
+          </div>
+          <h3 className="text-xl font-bold text-white">Claimable Rewards</h3>
+          <p className="text-white/60 text-sm mt-1">$WePee Tokens</p>
         </div>
         
-        <div className="text-center mb-4 md:mb-6 relative">
-          <div className="text-3xl md:text-4xl font-bold text-primary-accent mb-1 md:mb-2 relative">
-            {totalRewards.toFixed(2)}
-            <span className="absolute -right-8 md:-right-10 top-0 text-xl md:text-2xl coin-flip">{rewardEmoji}</span>
+        <div className="text-center mb-6 relative">
+          <div className="text-5xl font-black mb-2 relative">
+            <span className="gradient-text">{totalRewards.toFixed(2)}</span>
+            <span className="absolute -right-12 top-0 text-2xl coin-flip">{rewardEmoji}</span>
           </div>
-          <div className="text-primary-accent/70 text-sm md:text-base">$WePee 🚽</div>
           {totalRewards > 100 && (
-            <div className="absolute -top-4 -right-4">
-              <Trophy className="w-6 h-6 text-primary-accent wiggle-hover" />
+            <div className="absolute -top-2 -right-2">
+              <div className="p-2 bg-gradient-elegant rounded-full">
+                <Trophy className="w-4 h-4 text-white" />
+              </div>
             </div>
           )}
         </div>
@@ -107,26 +113,26 @@ export default function RewardsPanel({
                 <div className="loading-dot"></div>
                 <div className="loading-dot"></div>
               </div>
-              <span className="ml-2">Preparing your rewards...</span>
+              <span className="ml-2">Claiming rewards...</span>
             </>
           ) : (
             <>
-              <Gift className="w-5 h-5 inline mr-2 group-hover:scale-110 transition-transform" />
+              <Crown className="w-5 h-5 inline mr-2 group-hover:scale-110 transition-transform" />
               Claim Rewards
-              <PartyPopper className="w-5 h-5 inline ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Zap className="w-5 h-5 inline ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
             </>
           )}
         </button>
 
         {totalRewards <= 0 && (
-          <div className="mt-3 text-center">
-            <p className="text-primary-accent/50 text-sm">No rewards yet 🌱 Keep staking!</p>
+          <div className="mt-4 text-center">
+            <p className="text-white/50 text-sm">Start staking to earn rewards</p>
           </div>
         )}
         
         {showSuccess && (
-          <div className="mt-3 text-center fade-in-up">
-            <p className="text-green-400 text-sm success-animation">
+          <div className="mt-4 text-center fade-in-up">
+            <p className="gradient-text text-sm font-semibold success-animation">
               {getEncouragingMessage('claim')}
             </p>
           </div>
@@ -134,69 +140,73 @@ export default function RewardsPanel({
       </div>
 
       {/* $WePee Earning Rates */}
-      <div className="card group p-4 md:p-6">
-        <div className="flex items-center mb-3 md:mb-4">
-          <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-primary-accent mr-2 wiggle-hover" />
-          <h3 className="text-base md:text-lg font-bold text-primary-accent">$WePee Rates</h3>
-          <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-primary-accent ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="glass rounded-2xl p-6">
+        <div className="flex items-center justify-center mb-6">
+          <div className="p-3 rounded-full bg-gradient-elegant/20">
+            <TrendingUp className="w-6 h-6 text-white" />
+          </div>
         </div>
+        <h3 className="text-lg font-bold text-white text-center mb-6">Earning Rates</h3>
         
-        <div className="space-y-2 md:space-y-3">
-          <div className="flex justify-between items-center py-1.5 md:py-2 border-b border-primary-accent/20 hover:bg-primary-accent/5 transition-colors rounded px-2 -mx-2">
-            <span className="text-primary-accent/70 text-xs md:text-sm">Base Rate</span>
-            <span className="font-bold text-primary-accent text-xs md:text-sm">{wePeeRate} 🚽/1K/day</span>
+        <div className="space-y-3">
+          <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+            <span className="text-white/70">Base Rate</span>
+            <span className="font-semibold text-white">{wePeeRate} $WePee/1K/day</span>
           </div>
           
-          <div className="flex justify-between items-center py-1.5 md:py-2 border-b border-primary-accent/20 hover:bg-primary-accent/5 transition-colors rounded px-2 -mx-2">
-            <span className="text-primary-accent/70 text-xs md:text-sm">Your Stake</span>
-            <span className="font-bold text-primary-accent text-xs md:text-sm">{stakedAmount.toFixed(0)} TOKEN</span>
+          <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+            <span className="text-white/70">Your Stake</span>
+            <span className="font-semibold text-white">{stakedAmount.toFixed(0)} TOKEN</span>
           </div>
           
-          <div className="flex justify-between items-center py-1.5 md:py-2 hover:bg-primary-accent/5 transition-colors rounded px-2 -mx-2">
-            <span className="text-primary-accent/70 text-xs md:text-sm">Daily Earn</span>
-            <span className="font-bold text-primary-accent text-xs md:text-sm">{dailyWePee.toFixed(2)} 🚽</span>
+          <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+            <span className="text-white/70">Daily Earnings</span>
+            <span className="gradient-text font-bold">{dailyWePee.toFixed(2)} $WePee</span>
           </div>
         </div>
       </div>
 
       {/* Lock Period & Multiplier Info */}
-      <div className="card p-4 md:p-6">
-        <h3 className="text-base md:text-lg font-bold text-primary-accent mb-3 md:mb-4 flex items-center">
-          Lock & Multiplier
-          <Star className="w-4 h-4 md:w-5 md:h-5 ml-2 text-primary-accent float-animation" />
-        </h3>
+      <div className="glass rounded-2xl p-6">
+        <div className="flex items-center justify-center mb-6">
+          <div className="p-3 rounded-full bg-gradient-elegant/20">
+            <Star className="w-6 h-6 text-white float-animation" />
+          </div>
+        </div>
+        <h3 className="text-lg font-bold text-white text-center mb-6">Lock Details</h3>
         
-        <div className="space-y-2 md:space-y-3">
-          <div className="bg-primary-background/30 rounded-lg p-2.5 md:p-3 hover:bg-primary-background/40 transition-colors cursor-pointer group" onClick={() => {
+        <div className="space-y-3">
+          <div className="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors cursor-pointer group" onClick={() => {
             const el = event?.currentTarget as HTMLElement
             if (el) createSparkle(el)
           }}>
-            <div className="text-primary-accent/70 text-xs md:text-sm">Lock Period</div>
-            <div className="font-bold text-primary-accent text-sm md:text-base">{lockPeriod} 🔒</div>
+            <div className="text-white/60 text-sm mb-1">Lock Period</div>
+            <div className="font-bold text-white text-lg">{lockPeriod}</div>
           </div>
           
-          <div className="bg-primary-background/30 rounded-lg p-2.5 md:p-3 hover:bg-primary-background/40 transition-colors cursor-pointer group" onClick={() => {
+          <div className="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors cursor-pointer group" onClick={() => {
             const el = event?.currentTarget as HTMLElement
             if (el) createSparkle(el)
           }}>
-            <div className="text-primary-accent/70 text-xs md:text-sm">Multiplier</div>
-            <div className="font-bold text-primary-accent text-sm md:text-base">{lockMultiplier}x ⚡</div>
+            <div className="text-white/60 text-sm mb-1">Multiplier</div>
+            <div className="gradient-text font-bold text-lg">{lockMultiplier}x</div>
           </div>
           
-          <div className="bg-primary-background/30 rounded-lg p-2.5 md:p-3 hover:bg-primary-background/40 transition-colors cursor-pointer group" onClick={() => {
+          <div className="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors cursor-pointer group" onClick={() => {
             const el = event?.currentTarget as HTMLElement
             if (el) createSparkle(el)
           }}>
-            <div className="text-primary-accent/70 text-xs md:text-sm">Time Left</div>
-            <div className="font-bold text-primary-accent text-sm md:text-base">{Math.ceil(lockTimeRemaining / 86400)}d ⏰</div>
+            <div className="text-white/60 text-sm mb-1">Time Remaining</div>
+            <div className="font-bold text-white text-lg">{Math.ceil(lockTimeRemaining / 86400)} days</div>
           </div>
         </div>
 
-        <div className="mt-3 md:mt-4 p-2.5 md:p-3 bg-primary-accent/10 rounded-lg">
-          <div className="flex items-start space-x-2">
-            <AlertCircle className="w-3 h-3 md:w-4 md:h-4 text-primary-accent/70 flex-shrink-0 mt-0.5" />
-            <p className="text-primary-accent/70 text-xs">
-              $WePee earned with {lockMultiplier}x multiplier! Higher locks = more rewards! 🚀
+        <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
+          <div className="flex items-start space-x-3">
+            <AlertCircle className="w-5 h-5 text-white/70 flex-shrink-0 mt-0.5" />
+            <p className="text-white/70 text-sm">
+              Earning <span className="gradient-text font-semibold">{lockMultiplier}x multiplier</span> on base rewards. 
+              Longer locks unlock higher multipliers and greater returns.
             </p>
           </div>
         </div>

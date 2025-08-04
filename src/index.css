@@ -1,26 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --gradient-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  --gradient-secondary: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 100%);
+  --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #3C2750;
-  color: #F5C93A;
+  background: var(--gradient-primary);
+  color: #ffffff;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  min-height: 100vh;
+  background-attachment: fixed;
 }
 
-/* Delightful Animations */
+/* Elegant Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(245, 201, 58, 0.3); }
-  50% { box-shadow: 0 0 30px rgba(245, 201, 58, 0.5), 0 0 40px rgba(245, 201, 58, 0.2); }
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(139, 92, 246, 0.2); 
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.6), 0 0 60px rgba(139, 92, 246, 0.3), 0 0 80px rgba(217, 70, 239, 0.1); 
+  }
 }
 
 @keyframes sparkle {
@@ -86,11 +108,12 @@ body {
 
 .sparkle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #F5C93A;
+  width: 3px;
+  height: 3px;
+  background: linear-gradient(45deg, #6366f1, #8b5cf6);
   border-radius: 50%;
-  animation: sparkle 1.5s ease-in-out;
+  animation: sparkle 1.2s ease-in-out;
+  box-shadow: 0 0 6px rgba(99, 102, 241, 0.6);
 }
 
 /* Shimmer Effect */
@@ -98,11 +121,20 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(245, 201, 58, 0.3),
+    rgba(255, 255, 255, 0.1),
     transparent
   );
   background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+  animation: shimmer 3s infinite;
+}
+
+.gradient-text {
+  background: var(--gradient-accent);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Floating Animation */
@@ -163,9 +195,10 @@ body {
 
 @layer components {
   .card {
-    @apply bg-primary-secondary/20 backdrop-blur-sm border border-primary-accent/20 rounded-xl p-6 shadow-lg transition-all duration-300;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 transition-all duration-500;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-medium), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   
   .card::before {
@@ -175,11 +208,16 @@ body {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #F5C93A, #FFD700, #F5C93A);
+    background: var(--gradient-accent);
     border-radius: inherit;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
     z-index: -1;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-large), var(--shadow-glow), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
   
   .card:hover::before {
@@ -187,59 +225,110 @@ body {
   }
   
   .btn-primary {
-    @apply bg-primary-accent hover:bg-primary-hover text-primary-text font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105;
+    @apply font-semibold py-4 px-8 rounded-xl transition-all duration-300 transform;
+    background: var(--gradient-accent);
+    color: white;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    backdrop-filter: blur(10px);
   }
   
-  .btn-primary::after {
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-large), var(--shadow-glow);
+  }
+  
+  .btn-primary:active {
+    transform: translateY(0) scale(0.98);
+  }
+  
+  .btn-primary::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
   }
   
-  .btn-primary:active::after {
-    width: 300px;
-    height: 300px;
+  .btn-primary:hover::before {
+    left: 100%;
   }
   
   .btn-secondary {
-    @apply bg-primary-secondary hover:bg-primary-secondary/80 text-primary-accent border border-primary-accent/30 font-semibold py-3 px-6 rounded-lg transition-all duration-200;
+    @apply bg-white/5 hover:bg-white/10 text-white border border-white/20 font-semibold py-4 px-8 rounded-xl transition-all duration-300;
     position: relative;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-soft);
   }
   
   .btn-secondary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(245, 201, 58, 0.2);
+    box-shadow: var(--shadow-medium);
+    border-color: rgba(255, 255, 255, 0.3);
   }
   
   .input-field {
-    @apply bg-primary-background/50 border border-primary-accent/30 rounded-lg px-4 py-3 text-primary-accent placeholder-primary-accent/50 focus:outline-none focus:ring-2 focus:ring-primary-accent/50 focus:border-primary-accent transition-all duration-300;
+    @apply bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none transition-all duration-300;
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   }
   
   .input-field:focus {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(245, 201, 58, 0.15);
+    box-shadow: var(--shadow-glow), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-color: rgba(99, 102, 241, 0.5);
   }
   
   .stat-card {
-    @apply bg-gradient-to-br from-primary-secondary/30 to-primary-background/30 backdrop-blur-sm border border-primary-accent/20 rounded-xl p-4 text-center transition-all duration-300 cursor-pointer;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center transition-all duration-500 cursor-pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.6s;
   }
   
   .stat-card:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 16px rgba(245, 201, 58, 0.2);
+    box-shadow: var(--shadow-large), var(--shadow-glow);
+  }
+  
+  .stat-card:hover::before {
+    left: 100%;
   }
   
   .glow {
-    box-shadow: 0 0 20px rgba(245, 201, 58, 0.3);
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/20;
+    box-shadow: var(--shadow-medium), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .gradient-border {
+    position: relative;
+    background: var(--gradient-accent);
+    border-radius: 1rem;
+    padding: 2px;
+  }
+  
+  .gradient-border > * {
+    background: var(--gradient-primary);
+    border-radius: calc(1rem - 2px);
   }
   
   /* Fun Loading States */
